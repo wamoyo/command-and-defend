@@ -2,6 +2,8 @@
 
 > Medieval castle defense — shout at your troops.
 
+## ▶︎ [Play the live demo →](https://command-and-defend.innovation-bound.deno.net/)
+
 A browser tower-defense where every order is spoken. Rally your men with a
 pep talk, then hold `SPACE` mid-battle to fire volleys, cast fireballs,
 open gates, and roar `"For the king!"` at the horde.
