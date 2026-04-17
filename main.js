@@ -151,8 +151,14 @@ function json (body, status) {
   })
 }
 
+// Pure: short-circuit 500 if there is no API key configured.
+function noKeyResponse () {
+  return json({ error: 'server missing CAD_GROQ_KEY env var' }, 500)
+}
+
 // Side effect: POST /transcribe - forward multipart audio to Groq Whisper.
 async function handleTranscribe (request) {
+  if (!apiKey) return noKeyResponse()
   try {
     var form = await request.formData()
     var audio = form.get('audio')
@@ -178,6 +184,7 @@ async function handleTranscribe (request) {
 
 // Side effect: POST /command - text -> Groq chat with tool calling.
 async function handleCommand (request) {
+  if (!apiKey) return noKeyResponse()
   try {
     var body = await request.json()
     var text = (body && body.text || '').trim()
@@ -211,6 +218,7 @@ async function handleCommand (request) {
 
 // Side effect: POST /pep-talk - text -> morale JSON via Groq chat (JSON mode).
 async function handlePepTalk (request) {
+  if (!apiKey) return noKeyResponse()
   try {
     var body = await request.json()
     var text = (body && body.text || '').trim().slice(0, 3000)

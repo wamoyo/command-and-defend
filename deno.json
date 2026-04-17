@@ -7,8 +7,7 @@
     "@std/http": "jsr:@std/http@^1.0.20"
   },
   "deploy": {
-    "project": "command-and-defend",
-    "entrypoint": "main.js",
-    "include": ["main.js", "deno.json", "deno.lock", "public/"]
+    "org": "innovation-bound",
+    "app": "command-and-defend"
   }
 }
