@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Voice Tower Defense</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <!-- top-left: mic + command log -->
+  <div id="overlay">
+    <div id="mic">&#127908; HOLD SPACE to command your troops</div>
+    <div id="log" class="log"></div>
+  </div>
+
+  <!-- top-right HUD: morale, wave, castle HP -->
+  <div id="hud-right">
+    <div class="hud-block morale-block">
+      <div class="label">MORALE</div>
+      <div class="vbar"><div id="morale-fill"></div></div>
+      <div id="morale-value">50</div>
+    </div>
+    <div class="hud-block wave-block">
+      <div class="label">WAVE</div>
+      <div id="wave-value">&mdash;</div>
+    </div>
+    <div class="hud-block hp-block">
+      <div class="label">CASTLE HP</div>
+      <div class="hbar"><div id="hp-fill"></div></div>
+      <div id="hp-value">100</div>
+    </div>
+  </div>
+
+  <!-- bottom: cooldown chips -->
+  <div id="cooldown-chips">
+    <div class="chip" data-tool="fire_arrows">
+      <div class="chip-icon">&#127993;</div>
+      <div class="chip-meta">
+        <div class="chip-name">Arrows</div>
+        <div class="chip-bar"><div class="fill"></div></div>
+        <div class="secs">ready</div>
+      </div>
+    </div>
+    <div class="chip" data-tool="cast_fireball">
+      <div class="chip-icon">&#128293;</div>
+      <div class="chip-meta">
+        <div class="chip-name">Fireball</div>
+        <div class="chip-bar"><div class="fill"></div></div>
+        <div class="secs">ready</div>
+      </div>
+    </div>
+    <div class="chip" data-tool="rally_cry">
+      <div class="chip-icon">&#9876;</div>
+      <div class="chip-meta">
+        <div class="chip-name">Rally Cry</div>
+        <div class="chip-bar"><div class="fill"></div></div>
+        <div class="secs">ready</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom: command hints (only visible during battle) -->
+  <div id="hint">
+    Try: <em>"fire at the trolls"</em> &middot; <em>"fireball on the dragon"</em> &middot; <em>"open the gate"</em> &middot; <em>"for the king!"</em>
+  </div>
+
+  <!-- wave-intro banner -->
+  <div id="wave-banner" hidden></div>
+
+  <!-- full-screen pep-talk overlay -->
+  <div id="pep-overlay">
+    <div class="pep-box">
+      <h1 class="pep-title">The horde approaches.</h1>
+      <p class="pep-sub">Rally your troops, Commander. What will you say to them?</p>
+
+      <div id="pep-hint">
+        <div class="pep-mic">&#127908;</div>
+        <div>Hold <kbd>SPACE</kbd> to address them &mdash; release to submit.</div>
+      </div>
+
+      <div id="pep-loading" hidden>
+        <div class="spinner"></div>
+        <div>Weighing your words...</div>
+      </div>
+
+      <div id="pep-result" hidden>
+        <div class="morale-display">
+          <div class="morale-col">
+            <div class="morale-bar-large"><div id="pep-morale-fill"></div></div>
+            <div id="pep-morale-num">&mdash;</div>
+            <div class="morale-label">MORALE</div>
+          </div>
+          <div class="morale-detail">
+            <div id="pep-response" class="troop-line"></div>
+            <div id="pep-critique" class="critique-line"></div>
+          </div>
+        </div>
+        <div id="pep-begin">Press <kbd>ENTER</kbd> to begin the battle</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win / Lose end-screen -->
+  <div id="end-screen" hidden>
+    <div class="end-box">
+      <h1 id="end-title">&mdash;</h1>
+      <div id="end-sub"></div>
+      <div id="end-score"></div>
+      <div class="end-footer">Refresh to play again</div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
