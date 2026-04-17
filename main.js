@@ -1,17 +1,17 @@
 // Voice Tower Defense - Deno backend for Deno Deploy.
 // Serves ./public and proxies /transcribe, /command, /pep-talk to the Groq API.
-// Reads CAD-GROQ-KEY from env (with GROQ_KEY / GREEK_GROQ_KEY fallbacks for local dev).
+// Reads CAD_GROQ_KEY from env (with GROQ_KEY / GREEK_GROQ_KEY fallbacks for local dev).
 
 import { serveDir } from '@std/http/file-server'
 
 var apiKey =
-  Deno.env.get('CAD-GROQ-KEY') ||
+  Deno.env.get('CAD_GROQ_KEY') ||
   Deno.env.get('GROQ_KEY') ||
-  Deno.env.get('GREEK_GROQ_KEY')
+  Deno.env.get('GREEK_GROQ_KEY') ||
+  ''
 
 if (!apiKey) {
-  console.error('Missing API key. Set CAD-GROQ-KEY (or GROQ_KEY) in env, or in .env for local dev.')
-  Deno.exit(1)
+  console.warn('No API key found. Set CAD_GROQ_KEY in Deno Deploy env, or GROQ_KEY in .env for local dev. API endpoints will return 500 until set.')
 }
 
 var GROQ_BASE = 'https://api.groq.com/openai/v1'
